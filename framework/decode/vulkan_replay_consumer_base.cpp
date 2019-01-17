@@ -534,6 +534,16 @@ VkResult VulkanReplayConsumerBase::OverrideCreateDevice(VkResult                
             OverridePhysicalDevice(&physicalDevice);
         }
 
+        if (pCreateInfo && (pCreateInfo->enabledExtensionCount > 0))
+        {
+            GFXRECON_LOG_INFO("Creating device with the following extensions:");
+
+            for (uint32_t i = 0; i < pCreateInfo->enabledExtensionCount; ++i)
+            {
+                GFXRECON_LOG_INFO("\t%s", pCreateInfo->ppEnabledExtensionNames[i]);
+            }
+        }
+
         result = create_device_proc(physicalDevice, pCreateInfo, pAllocator, pDevice);
 
         if ((pDevice != nullptr) && (result == VK_SUCCESS))
